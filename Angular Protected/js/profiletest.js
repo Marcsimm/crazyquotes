@@ -79,3 +79,4 @@ function testLocalStorageData() {
     localStorage.setItem("PROFILE_NAME", "César Izquierdo Tello");
     localStorage.setItem("PROFILE_REAUTH_EMAIL", "oneaccount@gmail.com");
 }
+
