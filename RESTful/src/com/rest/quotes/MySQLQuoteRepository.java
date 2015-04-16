@@ -3,17 +3,18 @@ package com.rest.quotes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.rest.database.Database;
 
-public class MySQLQuotesRepository  implements QuotesRepository{
+public class MySQLQuoteRepository  implements QuotesRepository{
 
 private List<Quote> quotes;
 	
-	public MySQLQuotesRepository() {
+	public MySQLQuoteRepository() {
 		quotes = new ArrayList<>();
 	}
 	
@@ -44,11 +45,15 @@ private List<Quote> quotes;
 			
 				quotes.add(q);
 				
-
+				ResultSetMetaData rsmd = rs.getMetaData();
+						String name = rsmd.getColumnName(1);
+						System.out.println(name);
 				
-				for (int i = 0; i < quotes.size(); i++) {
-					System.out.println(quotes.get(i).getAuthor());
-				}
+
+//				
+//				for (int i = 0; i < quotes.size(); i++) {
+//					System.out.println(quotes.get(i).getAuthor());
+//				}
 	        }
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -74,23 +79,30 @@ private List<Quote> quotes;
 	}
 
 	@Override
-	public void insertQuote(Quote quote) {
+	public void insertQuote() {
 		ResultSet rs = null;
 	    Connection conn = null;
 	    PreparedStatement pstmt = null;
+	    Quote quote = new Quote();
 	    
 	    try {
 			conn = Database.getConnection();
 			
 			conn.setAutoCommit(false);
 			
-			String query = "INSERT INTO users VALUES (null, ?, ?, ?);";
+			quote.setText("hello");
+			quote.setAuthor("Karl Berg");
+			quote.setYear(1989);
+			//quote.setUserid();
+			
+			String query = "INSERT INTO quote VALUES (null, ?, ?, ?, 26);";
 		
 			pstmt = conn.prepareStatement(query);
 			
 			pstmt.setString(1, quote.getText());
 			pstmt.setString(2, quote.getAuthor());
 			pstmt.setInt(3, quote.getYear());
+			//pstmt.setInt(4, quote.getUserid());
 			
 			pstmt.executeUpdate();
 			

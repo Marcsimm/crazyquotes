@@ -11,7 +11,6 @@ public class Quote {
 	public int getIdquote() {
 		return idquote;
 	}
-	
 	public String getText() {
 		return text;
 	}
